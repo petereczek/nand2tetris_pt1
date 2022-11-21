@@ -1,0 +1,61 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/01/Mux.hdl
+
+/** 
+ * Multiplexor:
+ * out = a if sel == 0
+ *       b otherwise
+ */
+
+CHIP Mux8Way {
+    IN a, b, c, d, e, f, g, h, sel[3];
+    OUT out;
+
+    PARTS:
+    Not(in=sel[0], out=notsel0);
+    Not(in=sel[1], out=notsel1);
+    Not(in=sel[2], out=notsel2);
+    
+    And(a=a, b=notsel0, out=w00);
+    And(a=w00, b=notsel1, out=w01);
+    And(a=w01, b=notsel2, out=w02);
+    
+    And(a=b, b=sel[0], out=w10);
+    And(a=w10, b=notsel1, out=w11);
+    And(a=w11, b=notsel2, out=w12);
+    
+    And(a=c, b=notsel0, out=w20);
+    And(a=w20, b=sel[1], out=w21);
+    And(a=w21, b=notsel2, out=w22);
+    
+    And(a=d, b=sel[0], out=w30);
+    And(a=w30, b=sel[1], out=w31);
+    And(a=w31, b=notsel2, out=w32);
+    
+    And(a=e, b=notsel0, out=w40);
+    And(a=w40, b=notsel1, out=w41);
+    And(a=w41, b=sel[2], out=w42);
+    
+    And(a=f, b=sel[0], out=w50);
+    And(a=w50, b=notsel1, out=w51);
+    And(a=w51, b=sel[2], out=w52);
+    
+    And(a=g, b=notsel0, out=w60);
+    And(a=w60, b=sel[1], out=w61);
+    And(a=w61, b=sel[2], out=w62);
+    
+    And(a=h, b=sel[0], out=w70);
+    And(a=w70, b=sel[1], out=w71);
+    And(a=w71, b=sel[2], out=w72);
+    
+    Or(a=w02, b=w12, out=o0);
+    Or(a=w22, b=o0, out=o1);
+    Or(a=w32, b=o1, out=o2);
+    Or(a=w42, b=o2, out=o3);
+    Or(a=w52, b=o3, out=o4);
+    Or(a=w62, b=o4, out=o5);
+    Or(a=w72, b=o5, out=out);
+    // Put your code here:
+}
